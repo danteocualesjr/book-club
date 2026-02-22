@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Turning Page &mdash; Book Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream:  #FAF7F2;
+      --linen:  #F3EDE4;
+      --sand:   #E8DFD3;
+      --bark:   #4A3728;
+      --ink:    #2C1810;
+      --wine:   #8B2252;
+      --wine-light: #A8385E;
+      --sage:   #6B8F71;
+      --sage-light: #89B08F;
+      --gold:   #C8A96E;
+      --gold-light: #D4BC8A;
+      --mist:   #B8C4C0;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .section-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--wine);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    .section-subtitle {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--bark);
+      max-width: 560px;
+      line-height: 1.8;
+    }
+
+    /* ─── Navigation ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.25rem 0;
+      transition: background .4s, box-shadow .4s, padding .4s;
+    }
+    nav.scrolled {
+      background: rgba(250,247,242,.95);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 20px rgba(44,24,16,.06);
+      padding: .85rem 0;
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: var(--wine);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+    .nav-links { display: flex; gap: 2.5rem; align-items: center; }
+    .nav-links a {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--bark);
+      position: relative;
+      transition: color .3s;
+    }
+    .nav-links a:hover { color: var(--wine); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--wine);
+      transition: width .3s;
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .btn-join {
+      background: var(--wine);
+      color: #fff !important;
+      padding: .65rem 1.6rem;
+      border-radius: 50px;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: background .3s, transform .3s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-join:hover { background: var(--wine-light); transform: translateY(-1px); }
+    .btn-join::after { display: none !important; }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: .5rem; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--ink); margin: 5px 0; transition: .3s; }
+
+    /* ─── Hero ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 7rem 0 4rem;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--linen) 50%, #EDE3D5 100%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%; right: -10%;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(139,34,82,.05) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .hero-content h1 em { font-style: italic; color: var(--wine); }
+    .hero-content > p {
+      font-family: 'Lora', serif;
+      font-size: 1.15rem;
+      color: var(--bark);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+    }
+    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--wine);
+      color: #fff;
+      padding: .9rem 2.2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all .3s;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--wine-light); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139,34,82,.2); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      padding: .9rem 2.2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 500;
+      border: 2px solid var(--sand);
+      cursor: pointer;
+      transition: all .3s;
+      display: inline-block;
+    }
+    .btn-secondary:hover { border-color: var(--bark); background: var(--linen); }
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--sand);
+    }
+    .stat-item h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--wine); }
+    .stat-item p { font-size: .8rem; font-weight: 500; color: var(--bark); letter-spacing: 1px; text-transform: uppercase; margin: 0; }
+
+    /* Hero Book Covers */
+    .hero-visual { position: relative; display: flex; justify-content: center; }
+    .hero-books {
+      position: relative;
+      width: 380px;
+      height: 480px;
+      perspective: 1000px;
+    }
+    .hero-book-cover {
+      position: absolute;
+      border-radius: 6px 12px 12px 6px;
+      box-shadow: 8px 12px 40px rgba(44,24,16,.25);
+      overflow: hidden;
+      transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+    }
+    .hero-book-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-book-cover.hb-1 {
+      width: 180px; height: 270px;
+      top: 30px; left: 0;
+      transform: rotate(-6deg);
+      z-index: 3;
+    }
+    .hero-book-cover.hb-2 {
+      width: 170px; height: 255px;
+      top: 60px; left: 120px;
+      transform: rotate(4deg);
+      z-index: 2;
+    }
+    .hero-book-cover.hb-3 {
+      width: 160px; height: 240px;
+      top: 10px; right: 10px;
+      transform: rotate(10deg);
+      z-index: 1;
+    }
+    .hero-books:hover .hb-1 { transform: rotate(-10deg) translateY(-12px) scale(1.03); }
+    .hero-books:hover .hb-2 { transform: rotate(0deg) translateY(-8px) scale(1.03); }
+    .hero-books:hover .hb-3 { transform: rotate(14deg) translateY(-12px) scale(1.03); }
+    .hero-book-cover::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 14px;
+      background: linear-gradient(90deg, rgba(0,0,0,.2), transparent);
+    }
+    .floating-element {
+      position: absolute;
+      font-size: 2.2rem;
+      animation: float 6s ease-in-out infinite;
+      opacity: .6;
+      pointer-events: none;
+    }
+    .float-1 { top: 0; right: 10px; animation-delay: 0s; }
+    .float-2 { bottom: 50px; left: -10px; animation-delay: 2s; }
+    .float-3 { top: 55%; right: -10px; animation-delay: 4s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* ─── Current Read ─── */
+    .current-read { padding: 7rem 0; background: var(--linen); }
+    .current-read .container {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .current-book-cover {
+      width: 300px;
+      border-radius: 6px 14px 14px 6px;
+      box-shadow: 12px 16px 50px rgba(44,24,16,.22);
+      overflow: hidden;
+      position: relative;
+      transition: transform .4s;
+    }
+    .current-book-cover:hover { transform: scale(1.02) rotate(-1deg); }
+    .current-book-cover img {
+      width: 100%;
+      display: block;
+    }
+    .current-book-cover::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 18px;
+      background: linear-gradient(90deg, rgba(0,0,0,.18), transparent);
+    }
+    .current-book-info .reading-progress {
+      margin: 2rem 0;
+      background: var(--sand);
+      border-radius: 50px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--wine), var(--wine-light));
+      border-radius: 50px;
+      width: 0%;
+      transition: width 1.5s ease-out;
+    }
+    .progress-bar.animated { width: 62%; }
+    .progress-text { font-size: .85rem; color: var(--bark); margin-top: .5rem; }
+    .meeting-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+      box-shadow: 0 4px 20px rgba(44,24,16,.05);
+      transition: transform .3s;
+    }
+    .meeting-card:hover { transform: translateY(-2px); }
+    .meeting-date {
+      background: var(--wine);
+      color: #fff;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      min-width: 70px;
+      flex-shrink: 0;
+    }
+    .meeting-date .day { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; line-height: 1; }
+    .meeting-date .month { font-size: .7rem; letter-spacing: 2px; text-transform: uppercase; }
+    .meeting-info h4 { font-weight: 600; margin-bottom: .25rem; }
+    .meeting-info p { font-size: .85rem; color: var(--bark); margin: 0; }
+    .book-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .book-meta-item {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .85rem;
+      color: var(--bark);
+    }
+    .book-meta-item strong { color: var(--ink); font-weight: 600; }
+
+    /* ─── How It Works ─── */
+    .how-it-works { padding: 7rem 0; }
+    .how-it-works .header { text-align: center; margin-bottom: 4rem; }
+    .how-it-works .header .section-subtitle { margin: 0 auto; }
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .step-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      transition: transform .3s, box-shadow .3s;
+      border: 1px solid var(--sand);
+      position: relative;
+    }
+    .step-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(44,24,16,.08); }
+    .step-icon {
+      width: 70px; height: 70px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 1.5rem;
+    }
+    .step-card:nth-child(1) .step-icon { background: rgba(139,34,82,.08); }
+    .step-card:nth-child(2) .step-icon { background: rgba(107,143,113,.1); }
+    .step-card:nth-child(3) .step-icon { background: rgba(200,169,110,.12); }
+    .step-card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: .75rem; }
+    .step-card p { font-size: .92rem; color: var(--bark); line-height: 1.7; }
+    .step-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--sand);
+      margin-bottom: .5rem;
+    }
+    .step-connector {
+      display: none;
+    }
+    @media (min-width: 769px) {
+      .step-connector {
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: -1.25rem;
+        width: 2.5rem;
+        height: 2px;
+        background: var(--sand);
+      }
+      .step-card:last-child .step-connector { display: none; }
+    }
+
+    /* ─── Past Reads / Library ─── */
+    .past-reads { padding: 7rem 0; background: var(--linen); }
+    .past-reads .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+    }
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .book-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform .4s, box-shadow .4s;
+    }
+    .book-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 50px rgba(44,24,16,.12);
+    }
+    .book-card-cover {
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--cream);
+      position: relative;
+    }
+    .book-card-cover img {
+      width: 130px;
+      height: 195px;
+      object-fit: cover;
+      border-radius: 4px 8px 8px 4px;
+      box-shadow: 4px 6px 20px rgba(0,0,0,.18);
+      transition: transform .4s;
+    }
+    .book-card:hover .book-card-cover img { transform: scale(1.05); }
+    .book-card-cover img::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 10px;
+      background: linear-gradient(90deg, rgba(0,0,0,.15), transparent);
+    }
+    .book-card-body { padding: 1.25rem 1.5rem 1.5rem; }
+    .book-card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      margin-bottom: .3rem;
+      line-height: 1.3;
+    }
+    .book-card-body .author { font-size: .85rem; color: var(--bark); margin-bottom: .6rem; }
+    .book-rating { color: var(--gold); font-size: .9rem; letter-spacing: 1px; }
+    .book-card-body .read-date {
+      font-size: .75rem;
+      color: var(--mist);
+      margin-top: .5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ─── Upcoming Reads ─── */
+    .upcoming { padding: 7rem 0; }
+    .upcoming .header { text-align: center; margin-bottom: 4rem; }
+    .upcoming .header .section-subtitle { margin: 0 auto; }
+    .upcoming-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+    .upcoming-card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--sand);
+      transition: transform .3s, box-shadow .3s;
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      align-items: center;
+    }
+    .upcoming-card:hover { transform: translateY(-4px); box-shadow: 0 10px 35px rgba(44,24,16,.08); }
+    .upcoming-card img {
+      width: 80px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 4px 8px 8px 4px;
+      box-shadow: 3px 4px 12px rgba(0,0,0,.15);
+      flex-shrink: 0;
+    }
+    .upcoming-card-info { flex: 1; }
+    .upcoming-card-info .upcoming-month {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--wine);
+      margin-bottom: .4rem;
+    }
+    .upcoming-card-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      line-height: 1.3;
+      margin-bottom: .25rem;
+    }
+    .upcoming-card-info .author { font-size: .85rem; color: var(--bark); }
+    .upcoming-card-info .genre-tag {
+      display: inline-block;
+      margin-top: .6rem;
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: rgba(139,34,82,.06);
+      color: var(--wine);
+      padding: .3rem .7rem;
+      border-radius: 50px;
+    }
+
+    /* ─── Testimonials ─── */
+    .testimonials { padding: 7rem 0; background: var(--linen); }
+    .testimonials .header { text-align: center; margin-bottom: 4rem; }
+    .testimonials .header .section-subtitle { margin: 0 auto; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .testimonial-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      border: 1px solid var(--sand);
+      transition: transform .3s, box-shadow .3s;
+      position: relative;
+    }
+    .testimonial-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(44,24,16,.06); }
+    .testimonial-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: var(--wine);
+      line-height: 1;
+      margin-bottom: .25rem;
+      opacity: .4;
+    }
+    .testimonial-card > p {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: .95rem;
+      color: var(--bark);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+    .testimonial-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: .9rem;
+      color: #fff;
+    }
+    .testimonial-author-info h4 { font-weight: 600; font-size: .9rem; }
+    .testimonial-author-info span { font-size: .8rem; color: var(--bark); }
+    .testimonial-book {
+      font-size: .75rem;
+      color: var(--wine);
+      margin-top: .15rem;
+      font-style: italic;
+    }
+
+    /* ─── CTA ─── */
+    .cta {
+      padding: 7rem 0;
+      background: var(--ink);
+      color: #fff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -25%;
+      width: 150%; height: 200%;
+      background: radial-gradient(ellipse, rgba(139,34,82,.12) 0%, transparent 60%);
+    }
+    .cta .container { position: relative; z-index: 1; }
+    .cta .section-label { color: var(--gold); }
+    .cta .section-title { color: #fff; }
+    .cta .section-subtitle { color: rgba(255,255,255,.6); margin: 0 auto 2.5rem; }
+    .cta .btn-primary { font-size: 1.05rem; padding: 1rem 2.8rem; }
+    .cta-features {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+    .cta-feature {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .85rem;
+      color: rgba(255,255,255,.6);
+    }
+    .cta-feature span { color: var(--sage-light); font-size: 1.1rem; }
+
+    /* ─── Footer ─── */
+    footer {
+      padding: 4rem 0 2rem;
+      background: #1A0E08;
+      color: rgba(255,255,255,.5);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-brand .logo { color: #fff; margin-bottom: 1rem; }
+    .footer-brand .logo-icon { background: var(--wine); }
+    .footer-brand p { font-size: .9rem; line-height: 1.7; max-width: 280px; }
+    .footer-col h4 {
+      font-family: 'Playfair Display', serif;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .footer-col li { margin-bottom: .6rem; }
+    .footer-col a { font-size: .85rem; transition: color .3s; }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .8rem;
+    }
+    .footer-social { display: flex; gap: 1rem; }
+    .footer-social a {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      transition: all .3s;
+    }
+    .footer-social a:hover { background: var(--wine); border-color: var(--wine); color: #fff; }
+
+    /* ─── Animations ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s, transform .7s;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+
+    /* ─── Mobile ─── */
+    @media (max-width: 1024px) {
+      .books-grid { grid-template-columns: repeat(2, 1fr); }
+      .upcoming-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        background: var(--cream);
+        padding: 2rem;
+        gap: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        border-radius: 0 0 16px 16px;
+      }
+      .hero .container { grid-template-columns: 1fr; text-align: center; }
+      .hero-content > p { margin: 0 auto 2.5rem; }
+      .hero-buttons { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { margin-top: 2rem; }
+      .hero-books { width: 320px; height: 400px; }
+      .hero-book-cover.hb-1 { width: 150px; height: 225px; }
+      .hero-book-cover.hb-2 { width: 140px; height: 210px; }
+      .hero-book-cover.hb-3 { width: 130px; height: 195px; }
+      .current-read .container { grid-template-columns: 1fr; text-align: center; }
+      .current-book-cover { margin: 0 auto; width: 240px; }
+      .book-meta { justify-content: center; }
+      .steps-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+      .books-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+      .past-reads .header { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .cta-features { flex-direction: column; align-items: center; gap: 1rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .books-grid { grid-template-columns: 1fr; max-width: 300px; margin: 0 auto; }
+      .hero-books { width: 280px; height: 360px; }
+      .hero-book-cover.hb-1 { width: 130px; height: 195px; top: 20px; }
+      .hero-book-cover.hb-2 { width: 120px; height: 180px; left: 90px; }
+      .hero-book-cover.hb-3 { width: 110px; height: 165px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="container">
+      <a href="#" class="logo">
+        <div class="logo-icon">&#9753;</div>
+        The Turning Page
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#current">Current Read</a>
+        <a href="#how">How It Works</a>
+        <a href="#library">Library</a>
+        <a href="#upcoming">Coming Up</a>
+        <a href="#community">Community</a>
+        <a href="#join" class="btn-join">Join Us</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content reveal">
+        <p class="section-label">Welcome to our community</p>
+        <h1>Where Every Page<br>Sparks a <em>Conversation</em></h1>
+        <p>A warm community of curious readers who gather monthly to explore literature, share perspectives, and discover stories that stay with you long after the final chapter.</p>
+        <div class="hero-buttons">
+          <a href="#join" class="btn-primary">Become a Member</a>
+          <a href="#how" class="btn-secondary">Learn More</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <h3>240+</h3>
+            <p>Members</p>
+          </div>
+          <div class="stat-item">
+            <h3>86</h3>
+            <p>Books Read</p>
+          </div>
+          <div class="stat-item">
+            <h3>7</h3>
+            <p>Years Running</p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="hero-books">
+          <div class="hero-book-cover hb-1">
+            <img src="https://covers.openlibrary.org/b/isbn/9780063251922-L.jpg" alt="Demon Copperhead by Barbara Kingsolver">
+          </div>
+          <div class="hero-book-cover hb-2">
+            <img src="https://covers.openlibrary.org/b/isbn/9780316556347-L.jpg" alt="Circe by Madeline Miller">
+          </div>
+          <div class="hero-book-cover hb-3">
+            <img src="https://covers.openlibrary.org/b/isbn/9781400033416-L.jpg" alt="Beloved by Toni Morrison">
+          </div>
+          <div class="floating-element float-1">&#128214;</div>
+          <div class="floating-element float-2">&#9734;</div>
+          <div class="floating-element float-3">&#128218;</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Current Read -->
+  <section class="current-read" id="current">
+    <div class="container">
+      <div class="current-book-cover reveal">
+        <img src="https://covers.openlibrary.org/b/isbn/9780312577230-L.jpg" alt="The Great Alone by Kristin Hannah">
+      </div>
+      <div class="current-book-info reveal">
+        <p class="section-label">Now Reading</p>
+        <h2 class="section-title">The Great Alone</h2>
+        <p class="section-subtitle">A captivating story of a family in crisis set against the wild beauty of 1970s Alaska &mdash; a tale of survival, resilience, and the bonds that hold us together even in the harshest conditions.</p>
+        <div class="book-meta">
+          <div class="book-meta-item"><strong>Author:</strong> Kristin Hannah</div>
+          <div class="book-meta-item"><strong>Pages:</strong> 448</div>
+          <div class="book-meta-item"><strong>Genre:</strong> Historical Fiction</div>
+        </div>
+        <div class="reading-progress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <p class="progress-text">62% through &middot; Chapter 18 of 29</p>
+        <div class="meeting-card">
+          <div class="meeting-date">
+            <div class="day">14</div>
+            <div class="month">Mar</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Next Discussion</h4>
+            <p>Saturday, March 14 &middot; 2:00 PM &middot; Rosewood Caf&eacute; &amp; Online</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works" id="how">
+    <div class="container">
+      <div class="header reveal">
+        <p class="section-label">How It Works</p>
+        <h2 class="section-title">Simple, Inviting, Meaningful</h2>
+        <p class="section-subtitle">Whether you read ten books a year or one, there's a place for you here.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card reveal reveal-delay-1">
+          <div class="step-number">01</div>
+          <div class="step-icon">&#128218;</div>
+          <h3>Pick Up the Book</h3>
+          <p>Each month we announce our next read, chosen by member vote. Grab a copy from your library, bookstore, or e-reader.</p>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-card reveal reveal-delay-2">
+          <div class="step-number">02</div>
+          <div class="step-icon">&#9749;</div>
+          <h3>Read at Your Pace</h3>
+          <p>No pressure, no quizzes. Read at whatever pace feels right. Weekly check-ins keep the conversation flowing.</p>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-card reveal reveal-delay-3">
+          <div class="step-number">03</div>
+          <div class="step-icon">&#128172;</div>
+          <h3>Join the Discussion</h3>
+          <p>Meet in person or hop on our virtual call. Share your thoughts, hear fresh perspectives, and connect over great stories.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Past Reads -->
+  <section class="past-reads" id="library">
+    <div class="container">
+      <div class="header reveal">
+        <div>
+          <p class="section-label">Our Library</p>
+          <h2 class="section-title">Recent Reads</h2>
+        </div>
+        <a href="#" class="btn-secondary" style="margin-bottom:.5rem;">View All Books</a>
+      </div>
+      <div class="books-grid">
+        <div class="book-card reveal reveal-delay-1">
+          <div class="book-card-cover">
+            <img src="https://covers.openlibrary.org/b/isbn/9780593321201-L.jpg" alt="Tomorrow, and Tomorrow, and Tomorrow">
+          </div>
+          <div class="book-card-body">
+            <h3>Tomorrow, and Tomorrow, and Tomorrow</h3>
+            <p class="author">Gabrielle Zevin</p>
+            <div class="book-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="read-date">February 2026</p>
+          </div>
+        </div>
+        <div class="book-card reveal reveal-delay-2">
+          <div class="book-card-cover">
+            <img src="https://covers.openlibrary.org/b/isbn/9780385547345-L.jpg" alt="Lessons in Chemistry">
+          </div>
+          <div class="book-card-body">
+            <h3>Lessons in Chemistry</h3>
+            <p class="author">Bonnie Garmus</p>
+            <div class="book-rating">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+            <p class="read-date">January 2026</p>
+          </div>
+        </div>
+        <div class="book-card reveal reveal-delay-3">
+          <div class="book-card-cover">
+            <img src="https://covers.openlibrary.org/b/isbn/9780525559474-L.jpg" alt="The Midnight Library">
+          </div>
+          <div class="book-card-body">
+            <h3>The Midnight Library</h3>
+            <p class="author">Matt Haig</p>
+            <div class="book-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="read-date">December 2025</p>
+          </div>
+        </div>
+        <div class="book-card reveal reveal-delay-4">
+          <div class="book-card-cover">
+            <img src="https://covers.openlibrary.org/b/isbn/9781501173219-L.jpg" alt="All the Light We Cannot See">
+          </div>
+          <div class="book-card-body">
+            <h3>All the Light We Cannot See</h3>
+            <p class="author">Anthony Doerr</p>
+            <div class="book-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="read-date">November 2025</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Reads -->
+  <section class="upcoming" id="upcoming">
+    <div class="container">
+      <div class="header reveal">
+        <p class="section-label">Coming Up Next</p>
+        <h2 class="section-title">Upcoming Reads</h2>
+        <p class="section-subtitle">A peek at what's on our shelf for the coming months.</p>
+      </div>
+      <div class="upcoming-grid">
+        <div class="upcoming-card reveal reveal-delay-1">
+          <img src="https://covers.openlibrary.org/b/isbn/9780593135204-L.jpg" alt="Klara and the Sun">
+          <div class="upcoming-card-info">
+            <p class="upcoming-month">April 2026</p>
+            <h3>Klara and the Sun</h3>
+            <p class="author">Kazuo Ishiguro</p>
+            <span class="genre-tag">Literary Fiction</span>
+          </div>
+        </div>
+        <div class="upcoming-card reveal reveal-delay-2">
+          <img src="https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg" alt="Educated">
+          <div class="upcoming-card-info">
+            <p class="upcoming-month">May 2026</p>
+            <h3>Educated</h3>
+            <p class="author">Tara Westover</p>
+            <span class="genre-tag">Memoir</span>
+          </div>
+        </div>
+        <div class="upcoming-card reveal reveal-delay-3">
+          <img src="https://covers.openlibrary.org/b/isbn/9780062315007-L.jpg" alt="The Alchemist">
+          <div class="upcoming-card-info">
+            <p class="upcoming-month">June 2026</p>
+            <h3>The Alchemist</h3>
+            <p class="author">Paulo Coelho</p>
+            <span class="genre-tag">Philosophical Fiction</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="community">
+    <div class="container">
+      <div class="header reveal">
+        <p class="section-label">Our Community</p>
+        <h2 class="section-title">What Members Say</h2>
+        <p class="section-subtitle">Stories about the stories &mdash; hear from our readers.</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="testimonial-quote">&ldquo;</div>
+          <p>This club reignited my love for reading. The discussions add so much depth &mdash; I notice things in books I never would have on my own.</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" style="background:var(--wine);">SL</div>
+            <div class="testimonial-author-info">
+              <h4>Sarah L.</h4>
+              <span>Member since 2021</span>
+              <p class="testimonial-book">Loved: The Midnight Library</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-quote">&ldquo;</div>
+          <p>I've met some of my closest friends here. It's more than a book club &mdash; it's a community of thoughtful, curious people who truly listen.</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" style="background:var(--sage);">MR</div>
+            <div class="testimonial-author-info">
+              <h4>Marcus R.</h4>
+              <span>Member since 2022</span>
+              <p class="testimonial-book">Loved: Demon Copperhead</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-3">
+          <div class="testimonial-quote">&ldquo;</div>
+          <p>The hybrid format is perfect. I can join from home when life gets busy, or meet up in person when I want that cozy caf&eacute; vibe.</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" style="background:var(--gold);">JP</div>
+            <div class="testimonial-author-info">
+              <h4>Jasmine P.</h4>
+              <span>Member since 2023</span>
+              <p class="testimonial-book">Loved: Lessons in Chemistry</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="join">
+    <div class="container reveal">
+      <p class="section-label">Start Your Journey</p>
+      <h2 class="section-title">Your Next Favorite Book<br>Is Waiting</h2>
+      <p class="section-subtitle">Join a welcoming community of readers. No fees, no commitments &mdash; just great books and even better conversations.</p>
+      <a href="#" class="btn-primary">Join The Turning Page</a>
+      <div class="cta-features">
+        <div class="cta-feature"><span>&#10003;</span> Free to join</div>
+        <div class="cta-feature"><span>&#10003;</span> In-person &amp; virtual</div>
+        <div class="cta-feature"><span>&#10003;</span> All genres welcome</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <div class="logo-icon">&#9753;</div>
+            The Turning Page
+          </a>
+          <p>A community of curious readers gathering monthly to explore great literature and meaningful conversation.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#current">Current Read</a></li>
+            <li><a href="#library">Past Books</a></li>
+            <li><a href="#upcoming">Coming Up</a></li>
+            <li><a href="#how">How It Works</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#">Newsletter</a></li>
+            <li><a href="#">Discord</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Reading Guides</a></li>
+            <li><a href="#">Book Suggestions</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Code of Conduct</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 The Turning Page Book Club. Made with &#9825; for readers.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">&#9901;</a>
+          <a href="#" aria-label="Twitter">&#120143;</a>
+          <a href="#" aria-label="Discord">&#9672;</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Mobile menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    // Progress bar animation
+    const progressBar = document.getElementById('progressBar');
+    const progressObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          progressBar.classList.add('animated');
+          progressObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    progressObserver.observe(progressBar);
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href === '#') return;
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          navLinks.classList.remove('open');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
